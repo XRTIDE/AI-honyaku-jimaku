@@ -9,6 +9,6 @@ fn main() {
         .expect("Failed to execute command");
 
     if !output.status.success() {
-        eprintln!("Error: {:?}", output.stderr);
+        eprintln!("未成功: {:?}", output.stderr);
     }
 }
