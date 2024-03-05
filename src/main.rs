@@ -1,3 +1,14 @@
+use std::process::Command;
+
 fn main() {
-    println!("Hello, world!");
+    let output = Command::new("ffmpeg")
+        .arg("-i")
+        .arg("input.mp3")
+        .arg("output.wav")
+        .output()
+        .expect("Failed to execute command");
+
+    if !output.status.success() {
+        eprintln!("Error: {:?}", output.stderr);
+    }
 }
