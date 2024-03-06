@@ -16,10 +16,14 @@ fn main() {
 /// 提取音频函数
 fn extract_audio(input_path: &str, output_path: &str) -> Result<(), Error> {
     Command::new("ffmpeg")
+        //オプションで入力ファイル（ビデオ）を指定します
         .arg("-i")
         .arg(input_path)
+        //オプションでビデオを無視し、音声のみを抽出します
         .arg("-vn")
+        //オプションで音声のコーデックを指定します
         .arg("-acodec")
+        //libmp3lameを指定してMP3形式で保存します
         .arg("libmp3lame")
         .arg(output_path)
         .output()?;
