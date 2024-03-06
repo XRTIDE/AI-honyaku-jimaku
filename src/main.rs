@@ -1,26 +1,36 @@
-use std::fs::File;
-use std::io::Read;
+use std::fs;
+use std::io::Error;
 use std::path::Path;
-use std::process::{Command, Stdio};
+use std::process::Command;
+
 fn main() {
-    let input_path = Path::new("./weishu.mp4");
-    let output_path = Path::new("./weishu.mp3");
-    audio_extract(input_path, output_path).unwrap();
+    //新建一个文件夹
+    mk_dir().unwrap();
+    //设置输入输出路径
+    let input_path = Path::new("./weishu.mp4").to_str().unwrap();
+    let output_path = Path::new("./out/weishu.mp3").to_str().unwrap();
+    //提取音频
+    extract_audio(input_path, output_path).unwrap();
 }
 
-fn audio_extract(input_path: &Path, output_path: &Path) -> std::io::Result<()> {
-    let mut file = File::open(input_path)?;
-    let mut buffer = Vec::new();
-    file.read_to_end(&mut buffer)?;
-
+/// 提取音频函数
+fn extract_audio(input_path: &str, output_path: &str) -> Result<(), Error> {
     Command::new("ffmpeg")
         .arg("-i")
-        .arg("pipe:0")
+        .arg(input_path)
         .arg("-vn")
-        .arg(output_path.to_str().unwrap())
-        .stdin(Stdio::piped())
-        .output()
-        .expect("Failed to execute command");
+        .arg("-acodec")
+        .arg("libmp3lame")
+        .arg(output_path)
+        .output()?;
 
+    Ok(())
+}
+/// 创建文件夹函数
+fn mk_dir() -> Result<(), Error> {
+    let dir = "./out";
+    if !Path::new(dir).exists() {
+        fs::create_dir(dir)?;
+    }
     Ok(())
 }
