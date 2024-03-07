@@ -80,17 +80,6 @@ fn write_srt(seg: &[Segment], srt_path: &Path) -> std::io::Result<()> {
     Ok(())
 }
 
-async fn save_to_tikv(seg: &[Segment]) -> Result<(), tikv_client::Error> {
-    let config: Config = Config::default();
-    let raw = RawClient::new(config).await?;
-    for (n, i) in seg.iter().enumerate() {
-        let key = Key::from(n.to_string());
-        let value = Value::from(i.text.clone());
-        raw.put(key, value).await?;
-    }
-    Ok(())
-}
-
 fn transcribe_audio(
     audio_path: &Path,
     srt_path: &Path,
