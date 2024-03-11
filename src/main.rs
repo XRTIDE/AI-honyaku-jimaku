@@ -32,7 +32,9 @@ fn extract_audio(input_path: &str, output_path: &str) -> Result<(), Error> {
         //オプションで音声のコーデックを指定します
         .arg("-acodec")
         //libmp3lameを指定してMP3形式で保存します
-        .arg("libmp3lame")
+        // .arg("libmp3lame")
+        //pcm_s16leを指定してMP3形式で保存します
+        .arg("pcm_s16le")
         .arg(output_path)
         .output()?;
 
@@ -46,4 +48,3 @@ fn mk_dir() -> Result<(), Error> {
     }
     Ok(())
 }
-

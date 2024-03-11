@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 tikv-client = "0.3.0"
+# whisper-rs = "0.10.0"
