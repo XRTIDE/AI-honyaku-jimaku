@@ -4,13 +4,13 @@ use std::io::Write;
 use whisper_rs::{FullParams, SamplingStrategy, WhisperContext, WhisperContextParameters};
 
 /// Loads a context and model, processes an audio file, and prints the resulting transcript to stdout.
-fn main() -> Result<(), &'static str> {
+pub fn onnsei2tekisuto() -> Result<(), &'static str> {
     // Load a context and model.
     let ctx = WhisperContext::new_with_params(
-        "example/path/to/model/whisper.cpp/models/ggml-base.en.bin",
+        "./resource/ggml-base.bin",
         WhisperContextParameters::default(),
     )
-    .expect("failed to load model");
+    .expect("モデルの読み込みに失敗した");
     // Create a state
     let mut state = ctx.create_state().expect("failed to create key");
 
@@ -96,4 +96,3 @@ fn main() -> Result<(), &'static str> {
     }
     Ok(())
 }
-

@@ -1,3 +1,5 @@
+mod onnsei2tekisuto;
+
 use std::fs;
 use std::io::Error;
 use std::path::Path;
@@ -11,11 +13,16 @@ fn main() {
         eprintln!("エラー発生.");
     }
     //设置输入输出路径
-    let input_path = Path::new("./weishu.mp4").to_str().unwrap();
+    let input_path = Path::new("./resource/weishu.mp4").to_str().unwrap();
     let output_path = Path::new("./out/weishu.wav").to_str().unwrap();
     //提取音频
     if let Ok(_) = extract_audio(input_path, output_path) {
         println!("音声を抽出成功.");
+    } else {
+        eprintln!("エラー発生.");
+    }
+    if let Ok(_) = crate::onnsei2tekisuto::onnsei2tekisuto() {
+        println!("成功");
     } else {
         eprintln!("エラー発生.");
     }
