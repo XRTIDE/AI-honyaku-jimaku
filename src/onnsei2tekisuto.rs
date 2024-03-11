@@ -7,7 +7,7 @@ use whisper_rs::{FullParams, SamplingStrategy, WhisperContext, WhisperContextPar
 pub fn onnsei2tekisuto() -> Result<(), &'static str> {
     // Load a context and model.
     let ctx = WhisperContext::new_with_params(
-        "./resource/ggml-base.en.bin",
+        "./resource/ggml-base.bin",
         WhisperContextParameters::default(),
     )
     .expect("モデルの読み込みに失敗した");
@@ -19,12 +19,12 @@ pub fn onnsei2tekisuto() -> Result<(), &'static str> {
     let mut params = FullParams::new(SamplingStrategy::Greedy { best_of: 0 });
 
     // Edit params as needed.
-    // Set the number of threads to use to 8.
-    params.set_n_threads(8);
+    // Set the number of threads to use to 1.
+    params.set_n_threads(1);
     // Enable translation.
-    params.set_translate(true);
+    params.set_translate(false);
     // Set the language to translate to to English.
-    params.set_language(Some("auto"));
+    params.set_language(Some("zh"));
     // Disable anything that prints to stdout.
     params.set_print_special(false);
     params.set_print_progress(false);
@@ -54,7 +54,6 @@ pub fn onnsei2tekisuto() -> Result<(), &'static str> {
 
     // Convert audio to 16KHz mono f32 samples, as required by the model.
 
-
     // These utilities are provided for convenience, but can be replaced with custom conversion logic.
     // SIMD variants of these functions are also available on nightly Rust (see the docs).
     if channels == 2 {
@@ -69,6 +68,8 @@ pub fn onnsei2tekisuto() -> Result<(), &'static str> {
 
     // Run the model.
     state.full(params, &audio[..]).expect("failed to run model");
+    
+    println!("音声をテキストに変換成功しました");
 
     // Create a file to write the transcript to.
     let mut file = File::create("./out/weishu.txt").expect("failed to create weishu.txt");
