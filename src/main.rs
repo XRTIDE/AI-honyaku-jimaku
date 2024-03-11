@@ -12,7 +12,7 @@ fn main() {
     }
     //设置输入输出路径
     let input_path = Path::new("./weishu.mp4").to_str().unwrap();
-    let output_path = Path::new("./out/weishu.mp3").to_str().unwrap();
+    let output_path = Path::new("./out/weishu.wav").to_str().unwrap();
     //提取音频
     if let Ok(_) = extract_audio(input_path, output_path) {
         println!("音声を抽出成功.");
@@ -31,9 +31,9 @@ fn extract_audio(input_path: &str, output_path: &str) -> Result<(), Error> {
         .arg("-vn")
         //オプションで音声のコーデックを指定します
         .arg("-acodec")
-        //libmp3lameを指定してMP3形式で保存します
+        //mp3を指定してMP3形式で保存します
         // .arg("libmp3lame")
-        //pcm_s16leを指定してMP3形式で保存します
+        //WAVを指定してMP3形式で保存します
         .arg("pcm_s16le")
         .arg(output_path)
         .output()?;
