@@ -21,6 +21,7 @@ fn main() {
     } else {
         eprintln!("エラー発生.");
     }
+    //オディオファイルをテキストに変換
     if let Ok(_) = crate::onnsei2tekisuto::onnsei2tekisuto() {
         println!("成功");
     } else {
@@ -42,6 +43,9 @@ fn extract_audio(input_path: &str, output_path: &str) -> Result<(), Error> {
         // .arg("libmp3lame")
         //WAVを指定してMP3形式で保存します
         .arg("pcm_s16le")
+        //オプションで音声のサンプリングレートを指定します
+        .arg("-ar")
+        .arg("16000")
         .arg(output_path)
         .output()?;
 
